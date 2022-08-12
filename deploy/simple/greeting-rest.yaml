@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greeting-rest-deployment
+  labels:
+    app: greeting-rest-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: greeting-rest-deployment
+  template:
+    metadata:
+      labels:
+        app: greeting-rest-deployment
+    spec:
+      containers:
+      - name: greeting-rest
+        image: greeting-rest-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: greeting-rest-service
+spec:
+  selector:
+    app: greeting-rest-deployment
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000

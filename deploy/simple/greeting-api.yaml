@@ -1,0 +1,39 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: greeting-api-deployment
+#   labels:
+#     app: greeting-api-deployment
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: greeting-api-deployment
+#   template:
+#     metadata:
+#       labels:
+#         app: greeting-api-deployment
+#     spec:
+#       containers:
+#       - name: greeting-api
+#         image: greeting-api:latest
+#         imagePullPolicy: Never
+#         ports:
+#         - containerPort: 5000
+#         env:
+#           - name: ExternalServicesHostsOptions__Rest
+#             value: http://greeting-rest-service
+#           - name: ExternalServicesHostsOptions__gRPC
+#             value: http://greeting-grpc-service:8000
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: greeting-api-service
+# spec:
+#   selector:
+#     app: greeting-api-deployment
+#   ports:
+#     - protocol: TCP
+#       port: 8000
+#       targetPort: 5000

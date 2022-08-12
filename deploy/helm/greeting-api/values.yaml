@@ -1,0 +1,13 @@
+replicaCount: 1
+
+name: greeting-api
+container:
+  image: greeting-api:latest
+  imagePullPolicy: Never
+  containerPort: 5000
+
+servicePort: 8000
+
+env:
+  ExternalServicesHostsOptions__Rest: http://greeting-rest-service
+  ExternalServicesHostsOptions__gRPC: http://greeting-grpc-service:8000
