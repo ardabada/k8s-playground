@@ -20,6 +20,14 @@ spec:
         imagePullPolicy: {{ .Values.container.imagePullPolicy }}
         ports:
         - containerPort: {{ .Values.container.containerPort }}
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: {{ .Values.container.containerPort }}
+          initialDelaySeconds: 5
+          periodSeconds: 1
+          timeoutSeconds: 1
+          failureThreshold: 3
         env:
         {{ range $k, $v := .Values.env }}
           - name: {{ $k | quote }}
